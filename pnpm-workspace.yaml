@@ -1,0 +1,16 @@
+# pnpm 11+ no longer reads the `pnpm` field from package.json; settings live
+# here instead. esbuild + @tauri-apps/cli ship install-time scripts that need
+# to run (native binary extraction), so both are approved in `allowBuilds`.
+# Leaving an entry unset makes pnpm rewrite this file with a placeholder on
+# every install and skip the script, which silently breaks the esbuild binary.
+# strictDepBuilds=false demotes "unapproved dep build" from error to warning
+# so a future dep that adds a build script won't break `pnpm install`.
+#
+# `packages: []` is here only because pnpm/action-setup's cache lookup runs
+# `pnpm store path` which errors with "packages field missing" if this file
+# exists without one. We're not actually a workspace, so the list stays empty.
+packages: []
+allowBuilds:
+  esbuild: true
+  "@tauri-apps/cli": true
+strictDepBuilds: false

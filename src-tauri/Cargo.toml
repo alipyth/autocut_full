@@ -1,0 +1,29 @@
+[package]
+name = "autocut"
+version = "0.5.0"
+description = "Drop a video, remove silences, export MP4 or FCPXML"
+authors = ["Mert Cobanov", "Ali Jahani"]
+edition = "2021"
+rust-version = "1.77"
+default-run = "autocut"
+
+[lib]
+name = "autocut_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["protocol-asset"] }
+tauri-plugin-dialog = "2"
+tauri-plugin-notification = "2"
+tauri-plugin-shell = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+anyhow = "1"
+voice_activity_detector = "0.2"
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
